@@ -1,69 +1,44 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
 
-const gallery = document.querySelector('.gallery');
-const loader = document.querySelector('.loader');
+const galleryContainer = document.querySelector('.gallery');
 
-const simpleGallery = new SimpleLightbox('.gallery-item .link', {
+const pictureBox = new SimpleLightbox(`.gallery a`, {
   captionsData: 'alt',
+  captionPosition: 'bottom',
   captionDelay: 250,
 });
 
-function createGallery(images) {
+export function createGallery(images) {
   const markup = images
     .map(
-      ({
-        webformatURL,
-        largeImageURL,
-        tags,
-        likes = 0,
-        views = 0,
-        comments = 0,
-        downloads = 0,
-      }) => `
-      <li class="gallery-item">
-        <a class="link" href="${largeImageURL}">
-          <img src="${webformatURL}" alt="${tags}" class="image" width="400">
-        </a>
-        <div class="information like">
-          <h4>Likes</h4>
-          <p>${likes}</p>
-        </div>
-        <div class="information views">
-          <h4>Views</h4>
-          <p>${views}</p>
-        </div>
-        <div class="information comments">
-          <h4>Comments</h4>
-          <p>${comments}</p>
-        </div>
-        <div class="information downloads">
-          <h4>Downloads</h4>
-          <p>${downloads}</p>
-        </div>
-      </li>
-  `
+      image => `
+        <li class='gallery-item'>
+    <a class='gallery-link' href='${image.largeImageURL}'>
+    <img class='gallery-img' src='${image.webformatURL}' alt='${image.tags}' width='320'/></a>
+    <div class='info'>
+    <p class='info-item'><b>Likes</b><span class='info-item-current'>${image.likes}</span></p>
+    <p class='info-item'><b>Views</b><span class='info-item-current'>${image.views}</span></p>
+    <p class='info-item'><b>Comments</b><span class='info-item-current'>${image.comments}</span></p>
+    <p class='info-item'><b>Downloads</b><span class='info-item-current'>${image.downloads}</span></p>
+    </div></li>`
     )
     .join('');
 
-  gallery.innerHTML = markup;
-  simpleGallery.refresh();
+  galleryContainer.insertAdjacentHTML('beforeend', markup);
+  pictureBox.refresh();
 }
 
-function clearGallery() {
-  gallery.innerHTML = '';
+export function clearGallery() {
+  galleryContainer.innerHTML = '';
 }
 
-function showLoader() {
-  loader.classList.remove('hide');
-}
-
-function hideLoader() {
+export function showLoader() {
   const loader = document.querySelector('.loader');
-  if (loader.length < 0) {
-    return;
-  }
-  loader.classList.add('hide');
+  loader.classList.remove('is-unactive');
 }
 
-export { createGallery, clearGallery, showLoader, hideLoader };
+export function hideLoader() {
+  const loader = document.querySelector('.loader');
+  loader.classList.add('is-unactive');
+}

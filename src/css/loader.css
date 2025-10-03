@@ -1,40 +1,30 @@
 .loader {
-    color: #000;
-    display: inline-block;
+    display: block;
     position: relative;
-    left: 50%;
-    translate: -50%;
-    font-size: 48px;
-    font-family: Arial, Helvetica, sans-serif;
-    box-sizing: border-box;
+    height: 12px;
+    width: 80%;
+    border: 1px solid #fff;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.loader::after {
+.loader:after {
     content: '';
-    width: 5px;
-    height: 5px;
-    background: currentColor;
     position: absolute;
-    bottom: 10px;
-    right: -5px;
-    box-sizing: border-box;
-    animation: animloader 1s linear infinite;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 0;
+    background: #ff3d00;
+    animation: 6s prog ease-in infinite;
 }
 
-.loader.hide {
+@keyframes prog {
+    to {
+        width: 100%;
+    }
+}
+
+.is-unactive {
     display: none;
-}
-
-@keyframes animloader {
-    0% {
-        box-shadow: 10px 0 rgba(0, 0, 0, 0), 20px 0 rgba(0, 0, 0, 0);
-    }
-
-    50% {
-        box-shadow: 10px 0 black, 20px 0 rgba(0, 0, 0, 0);
-    }
-
-    100% {
-        box-shadow: 10px 0 black, 20px 0 black;
-    }
 }
